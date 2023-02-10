@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useContext } from "react";
 import Icon from "@mdi/react";
 import {
   mdiHeartOutline,
@@ -8,9 +8,10 @@ import {
 } from "@mdi/js";
 import { AppContext } from "../appContext";
 import PropTypes from "prop-types";
+import useHover from "../hooks/useHover";
 
 function Image({ className, img }) {
-  const [hovered, setHovered] = useState(false);
+  const [hovered, ref] = useHover();
   const { toggleFavorite, addToCart, removeFromCart, cartItems } =
     useContext(AppContext);
 
@@ -65,15 +66,7 @@ function Image({ className, img }) {
   }
 
   return (
-    <div
-      className={`${className} image-container`}
-      onMouseEnter={() => {
-        setHovered(true);
-      }}
-      onMouseLeave={() => {
-        setHovered(false);
-      }}
-    >
+    <div className={`${className} image-container`} ref={ref}>
       <img src={img.url} className="image-grid" />
       {heartIcon()}
       {cartIcon()}
