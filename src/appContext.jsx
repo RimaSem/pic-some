@@ -32,6 +32,10 @@ function AppContextProvider(props) {
     setCartItems((prev) => prev.filter((obj) => +item.id !== +obj.id));
   }
 
+  function emptyCart() {
+    setCartItems([]);
+  }
+
   return (
     <AppContext.Provider
       value={{
@@ -40,6 +44,7 @@ function AppContextProvider(props) {
         addToCart,
         cartItems,
         removeFromCart,
+        emptyCart,
       }}
     >
       {props.children}

@@ -1,9 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AppContext } from "../appContext";
 
 function CartItem({ item }) {
+  const { removeFromCart } = useContext(AppContext);
+
   return (
     <div className="cart-item">
-      <i className="ri-delete-bin-line"></i>
+      <i
+        className="ri-delete-bin-line"
+        onClick={() => removeFromCart(item)}
+      ></i>
       <img src={item.url} width="130px" />
       <p>$5.99</p>
     </div>
