@@ -1,13 +1,20 @@
 import React, { useState, useContext } from "react";
 import Icon from "@mdi/react";
-import { mdiHeartOutline, mdiPlusCircleOutline, mdiHeart } from "@mdi/js";
+import {
+  mdiHeartOutline,
+  mdiPlusCircleOutline,
+  mdiHeart,
+  mdiCart,
+} from "@mdi/js";
 import { AppContext } from "../appContext";
+import PropTypes from "prop-types";
 
 function Image({ className, img }) {
   const [hovered, setHovered] = useState(false);
-  const { toggleFavorite } = useContext(AppContext);
+  const { toggleFavorite, addToCart, removeFromCart, cartItems } =
+    useContext(AppContext);
 
-  function favorite() {
+  function heartIcon() {
     if (img.isFavorite) {
       return (
         <Icon
@@ -31,6 +38,32 @@ function Image({ className, img }) {
     }
   }
 
+  function cartIcon() {
+    const inCart = cartItems.some((item) => +item.id === +img.id);
+    if (inCart) {
+      return (
+        <Icon
+          path={mdiCart}
+          size={1}
+          className="ri-shopping-cart-fill cart"
+          color="white"
+          onClick={() => removeFromCart(img)}
+        />
+      );
+    } else if (hovered) {
+      return (
+        <Icon
+          path={mdiPlusCircleOutline}
+          size={1}
+          className="ri-add-circle-line cart"
+          onClick={() => {
+            addToCart(img);
+          }}
+        />
+      );
+    }
+  }
+
   return (
     <div
       className={`${className} image-container`}
@@ -42,16 +75,19 @@ function Image({ className, img }) {
       }}
     >
       <img src={img.url} className="image-grid" />
-      {favorite()}
-      {hovered && (
-        <Icon
-          path={mdiPlusCircleOutline}
-          size={1}
-          className="ri-add-circle-line cart"
-        />
-      )}
+      {heartIcon()}
+      {cartIcon()}
     </div>
   );
 }
+
+Image.propTypes = {
+  className: PropTypes.string,
+  img: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    url: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool,
+  }),
+};
 
 export default Image;
