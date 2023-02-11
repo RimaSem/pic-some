@@ -8943,13 +8943,84 @@ function Header() {
     ) })
   ] });
 }
-var propTypesExports$1 = {};
+function useHover() {
+  const [hovered, setHovered] = reactExports.useState(false);
+  const ref = reactExports.useRef(null);
+  function enter() {
+    setHovered(true);
+  }
+  function leave() {
+    setHovered(false);
+  }
+  reactExports.useEffect(() => {
+    if (ref.current) {
+      ref.current.addEventListener("mouseenter", enter);
+      ref.current.addEventListener("mouseleave", leave);
+    }
+    return () => {
+      if (ref.current) {
+        ref.current.removeEventListener("mouseenter", enter);
+        ref.current.removeEventListener("mouseleave", leave);
+      }
+    };
+  }, []);
+  return [hovered, ref];
+}
+function CartItem({ item }) {
+  const { removeFromCart } = reactExports.useContext(AppContext);
+  const [hovered, ref] = useHover();
+  const iconClassName = hovered ? "ri-delete-bin-fill" : "ri-delete-bin-line";
+  return /* @__PURE__ */ jsxs("div", { className: "cart-item", children: [
+    /* @__PURE__ */ jsx(
+      "i",
+      {
+        className: iconClassName,
+        onClick: () => removeFromCart(item),
+        ref
+      }
+    ),
+    /* @__PURE__ */ jsx("img", { src: item.url, width: "130px" }),
+    /* @__PURE__ */ jsx("p", { children: "$5.99" })
+  ] });
+}
+function Cart() {
+  const { cartItems, emptyCart } = reactExports.useContext(AppContext);
+  const cartItemElements = cartItems.map((item) => /* @__PURE__ */ jsx(CartItem, { item }, item.id));
+  function totalPrice() {
+    let sum = 0;
+    cartItems.forEach((item) => sum += 5.99);
+    return sum;
+  }
+  function placeOrder(e) {
+    e.target.textContent = "Ordering...";
+    setTimeout(() => {
+      console.log("Order placed!");
+      e.target.textContent = "Place Order";
+      emptyCart();
+    }, 3e3);
+  }
+  return /* @__PURE__ */ jsxs("main", { className: "cart-page", children: [
+    /* @__PURE__ */ jsx("h1", { children: "Check out" }),
+    cartItemElements,
+    /* @__PURE__ */ jsxs("p", { className: "total-cost", children: [
+      "Total:",
+      " ",
+      totalPrice().toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD"
+      }),
+      " "
+    ] }),
+    cartItems.length > 0 && /* @__PURE__ */ jsx("div", { className: "order-button", children: /* @__PURE__ */ jsx("button", { onClick: placeOrder, children: "Place Order" }) })
+  ] });
+}
+var propTypesExports = {};
 var propTypes = {
   get exports() {
-    return propTypesExports$1;
+    return propTypesExports;
   },
   set exports(v2) {
-    propTypesExports$1 = v2;
+    propTypesExports = v2;
   }
 };
 var ReactPropTypesSecret_1;
@@ -9020,90 +9091,12 @@ function requireFactoryWithThrowingShims() {
 var hasRequiredPropTypes;
 function requirePropTypes() {
   if (hasRequiredPropTypes)
-    return propTypesExports$1;
+    return propTypesExports;
   hasRequiredPropTypes = 1;
   {
     propTypes.exports = requireFactoryWithThrowingShims()();
   }
-  return propTypesExports$1;
-}
-var propTypesExports = requirePropTypes();
-const PropTypes = /* @__PURE__ */ getDefaultExportFromCjs(propTypesExports);
-function useHover() {
-  const [hovered, setHovered] = reactExports.useState(false);
-  const ref = reactExports.useRef(null);
-  function enter() {
-    setHovered(true);
-  }
-  function leave() {
-    setHovered(false);
-  }
-  reactExports.useEffect(() => {
-    if (ref.current) {
-      ref.current.addEventListener("mouseenter", enter);
-      ref.current.addEventListener("mouseleave", leave);
-    }
-    return () => {
-      if (ref.current) {
-        ref.current.removeEventListener("mouseenter", enter);
-        ref.current.removeEventListener("mouseleave", leave);
-      }
-    };
-  }, []);
-  return [hovered, ref];
-}
-function CartItem({ item }) {
-  const { removeFromCart } = reactExports.useContext(AppContext);
-  const [hovered, ref] = useHover();
-  const iconClassName = hovered ? "ri-delete-bin-fill" : "ri-delete-bin-line";
-  return /* @__PURE__ */ jsxs("div", { className: "cart-item", children: [
-    /* @__PURE__ */ jsx(
-      "i",
-      {
-        className: iconClassName,
-        onClick: () => removeFromCart(item),
-        ref
-      }
-    ),
-    /* @__PURE__ */ jsx("img", { src: item.url, width: "130px" }),
-    /* @__PURE__ */ jsx("p", { children: "$5.99" })
-  ] });
-}
-CartItem.propTypes = {
-  item: PropTypes.shape({
-    url: PropTypes.string.isRequired
-  })
-};
-function Cart() {
-  const { cartItems, emptyCart } = reactExports.useContext(AppContext);
-  const cartItemElements = cartItems.map((item) => /* @__PURE__ */ jsx(CartItem, { item }, item.id));
-  function totalPrice() {
-    let sum = 0;
-    cartItems.forEach((item) => sum += 5.99);
-    return sum;
-  }
-  function placeOrder(e) {
-    e.target.textContent = "Ordering...";
-    setTimeout(() => {
-      console.log("Order placed!");
-      e.target.textContent = "Place Order";
-      emptyCart();
-    }, 3e3);
-  }
-  return /* @__PURE__ */ jsxs("main", { className: "cart-page", children: [
-    /* @__PURE__ */ jsx("h1", { children: "Check out" }),
-    cartItemElements,
-    /* @__PURE__ */ jsxs("p", { className: "total-cost", children: [
-      "Total:",
-      " ",
-      totalPrice().toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD"
-      }),
-      " "
-    ] }),
-    cartItems.length > 0 && /* @__PURE__ */ jsx("div", { className: "order-button", children: /* @__PURE__ */ jsx("button", { onClick: placeOrder, children: "Place Order" }) })
-  ] });
+  return propTypesExports;
 }
 var Icon = function(e) {
   var t2 = {};
@@ -9288,14 +9281,6 @@ function Image({ className, img }) {
     cartIcon()
   ] });
 }
-Image.propTypes = {
-  className: PropTypes.string,
-  img: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    isFavorite: PropTypes.bool
-  })
-};
 function getClass(i) {
   if (i % 5 === 0) {
     return "big";
