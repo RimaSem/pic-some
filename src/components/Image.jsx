@@ -7,7 +7,7 @@ import {
   mdiCart,
 } from "@mdi/js";
 import { AppContext } from "../appContext";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import useHover from "../hooks/useHover";
 
 function Image({ className, img }) {
@@ -74,13 +74,13 @@ function Image({ className, img }) {
   );
 }
 
-Image.propTypes = {
-  className: PropTypes.string,
-  img: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    isFavorite: PropTypes.bool,
-  }),
-};
+// Image.propTypes = {
+//   className: PropTypes.string,
+//   img: PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     url: PropTypes.string.isRequired,
+//     isFavorite: PropTypes.bool,
+//   }),
+// };
 
 export default Image;

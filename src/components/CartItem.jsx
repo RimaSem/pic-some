@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { AppContext } from "../appContext";
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import useHover from "../hooks/useHover";
 
 function CartItem({ item }) {
@@ -23,10 +23,10 @@ function CartItem({ item }) {
   );
 }
 
-CartItem.propTypes = {
-  item: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }),
-};
+// CartItem.propTypes = {
+//   item: PropTypes.shape({
+//     url: PropTypes.string.isRequired,
+//   }),
+// };
 
 export default CartItem;
